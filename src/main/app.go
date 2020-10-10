@@ -33,13 +33,14 @@ func main() {
 	})
 
 	r.POST("/ig/accessToken", func(c *gin.Context) {
+		fmt.Printf("controller accessToken start! \n")
 		jsonData, err := ioutil.ReadAll(c.Request.Body)
         if err != nil {
 		  // Handle error
-		  fmt.Printf("accessToken error!")
+		  fmt.Printf("accessToken error!\n")
 		}
 		jsonValue := string(jsonData)
-		fmt.Printf("accessToken json:", jsonValue)
+		fmt.Printf("accessToken json:%v \n", jsonValue)
         c.JSON(200, gin.H{
             "authCode": jsonValue,
         })
