@@ -9,6 +9,11 @@ func main() {
 	fmt.Printf("main start! \n")
 
 	r := gin.Default()
+	r.LoadHTMLGlob("www/*")
+
+	r.GET("/ig/startPage", func(c *gin.Context) {
+		c.HTML(200, "testIG.html", nil)
+	})
 
     r.GET("/ping", func(c *gin.Context) {
 		value := c.Query("id")
