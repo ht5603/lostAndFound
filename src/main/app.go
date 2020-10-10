@@ -1,7 +1,8 @@
 package main
 import (
 	"fmt"
-	// "lostAndFound/src/main/api"
+	"io/ioutil"
+	"lostAndFound/src/main/api"
 	"github.com/gin-gonic/gin"
 )
 func main() { 
@@ -20,8 +21,22 @@ func main() {
 	r.GET("/ig/auth", func(c *gin.Context) {
 		value := c.Query("code")
 		fmt.Printf("ig auth code:%v \n", value)
+		api.GetAccessTokenByCode(value)
         c.JSON(200, gin.H{
             "authCode": value,
+        })
+	})
+
+	r.POST("/ig/accessToken", func(c *gin.Context) {
+		jsonData, err := ioutil.ReadAll(c.Request.Body)
+        if err != nil {
+		  // Handle error
+		  fmt.Printf("accessToken error!")
+		}
+		jsonValue := string(jsonData)
+		fmt.Printf("accessToken json:", jsonValue)
+        c.JSON(200, gin.H{
+            "authCode": jsonValue,
         })
 	})
 
