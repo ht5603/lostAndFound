@@ -13,5 +13,5 @@ func GetAccessTokenByCode(code string) {
 	urlParams["redirect_uri"] = "https://35.194.194.103/ig/accessToken"
 	urlParams["code"] = code
 	fmt.Printf("執行取得accessToken, code:%v \n url:%v \n", code, url)
-	rest.Get(url, urlParams)
+	rest.Post(url, urlParams)
 }
