@@ -4,6 +4,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strings"
+	netUrL "net/url"
 )
 
 func Get(url string, param map[string]string) string {
@@ -26,23 +27,14 @@ func Get(url string, param map[string]string) string {
 }
 
 func Post(url string, param map[string]string) string {
-	url = url + "?"
+	data := netUrL.Values{}
 	for key, value := range param {
-        url = url + key + "=" + value + "&"
+        data.Set(key,value)
 	}
 	fmt.Printf("http post url:%v \n", url)
-	resp, err := http.Post(url,
-		"application/json",
-		strings.NewReader("name=test"))
-    if err != nil {
-        fmt.Println(err)
-    }
-
-	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
-    if err != nil {
-        print(err)
-    }
-	fmt.Printf("response:%v \n",string(body))
-	return string(body)
+	client := &http.Client{}
+	r, _ := http.NewRequest(http.MethodPost, url, strings.NewReader(data.Encode())) 
+	resp, _ := client.Do(r)
+	fmt.Println(resp.Status)
+	return resp.Status
 }
